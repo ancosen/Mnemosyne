@@ -36,7 +36,7 @@ Suppose you want to backup your home directory every 12 hours in a specific fold
 ```shell
 		./mnemosyne.sh -o /home/ -d /media/ancosen/disk/ -c '0 0,12 * * *'
 ```
-If you get you crontab rules you'll now find:
+If you get your crontab rules you'll now find:
 
 ```shell
 		0 0,12 * * * cp -r /home/ /media/ancosen/disk/
