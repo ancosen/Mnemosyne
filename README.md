@@ -55,4 +55,3 @@ you may not use this file except in compliance with the License.
 You may obtain a copy of the License at https://www.gnu.org/copyleft/gpl.html
 
 ![alt tag](https://www.gnu.org/graphics/gplv3-127x51.png)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ancosen/mnemosyne/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
