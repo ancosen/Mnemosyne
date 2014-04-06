@@ -16,7 +16,7 @@ Mnemosyne is a simple script to automate any backup on your system by adding an 
 
 ## <a name='State'>Actual State</a>
 
-The development of Mnemosyne is a the beginning and only the first features are available. If you have improvement or new features ideas feel free to open a new issue.
+The development of Mnemosyne is at the beginning and only the first features are available. If you have improvement or new features ideas feel free to open a new issue.
 
 ## <a name='Usage'>Usage</a>
 
