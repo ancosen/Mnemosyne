@@ -28,8 +28,8 @@ OPTIONS:
    -o      File or folder to backup
    -d      Backup destination directory
    -c      Add a crontab rule to this command
-   -l 	   List of crontab rule
-   -r      Erase all crontab rule
+   -l 	   List of crontab rules
+   -r      Erase all crontab rules
    -v      Verbose
 ```
 
