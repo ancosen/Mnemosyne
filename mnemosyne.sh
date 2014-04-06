@@ -12,6 +12,8 @@ OPTIONS:
    -o      File or folder to backup
    -d      Backup destination directory
    -c      Add a crontab rule to this command
+   -l 	   List of crontab rules
+   -r      Erase all crontab rules
    -v      Verbose
 EOF
 }
@@ -21,7 +23,7 @@ DESTINATION=
 CRONTAB=
 COMMAND=
 
-while getopts “ho:d:c:v” OPTION
+while getopts “ho:d:c:vlr” OPTION
 do
      case $OPTION in
          h)
@@ -36,6 +38,16 @@ do
              ;;
          c)
              CRONTAB=$OPTARG
+             ;;
+         l)
+	     echo "Listing all crontab rules"
+             crontab -l
+	     exit
+             ;;
+         r)
+	     echo "Remove all crontab rules"
+             crontab -r
+	     exit
              ;;
          v)
              set -x
@@ -60,10 +72,15 @@ fi
 if [ ! -d "$DESTINATION" ]; then
   echo "Creating destination directory"
   mkdir $DESTINATION 
-fi
-
   COMMAND="$CRONTAB cp -r $ORIGIN $DESTINATION"
   crontab -l > mycron 2> /dev/null
   echo "$COMMAND" >> mycron
   crontab mycron
   rm mycron
+else
+  COMMAND="$CRONTAB cp -r $ORIGIN $DESTINATION"
+  crontab -l > mycron 2> /dev/null
+  echo "$COMMAND" >> mycron
+  crontab mycron
+  rm mycron
+fi
