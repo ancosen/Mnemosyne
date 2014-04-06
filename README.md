@@ -20,6 +20,7 @@ The development of Mnemosyne is a the beginning and only the first features are 
 
 ## <a name='Usage'>Usage</a>
 
+```shell
 Backup folder or file in a specific path with associated crontab rule
 
 OPTIONS:
@@ -28,6 +29,7 @@ OPTIONS:
    -d      Backup destination directory
    -c      Add a crontab rule to this command
    -v      Verbose
+```
 
 ## <a name='Examples'>Examples</a>
 
