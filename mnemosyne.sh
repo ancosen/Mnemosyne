@@ -27,18 +27,23 @@ OPTIONS:
    -o      File or folder to backup
    -d      Backup destination directory
    -c      Add a crontab rule to this command
-   -l 	   List of crontab rules
-   -r      Erase all crontab rules
+   -a      Use Rsync in archive mode
+   -u      Use Rsync in update mode
+   -r      Use Rsync in recursive mode
    -v      Verbose
 EOF
 }
 
+FULLOPTIONS="-"
 ORIGIN=
 DESTINATION=
 CRONTAB=
 COMMAND=
+ARCHIVE=0
+UPDATE=0
+RECURSIVE=0
 
-while getopts “ho:d:c:vlr” OPTION
+while getopts “hauro:d:c:v” OPTION
 do
      case $OPTION in
          h)
@@ -54,19 +59,18 @@ do
          c)
              CRONTAB=$OPTARG
              ;;
-         l)
-	     echo "Listing all crontab rules"
-             crontab -l
-	     exit
-             ;;
-         r)
-	     echo "Remove all crontab rules"
-             crontab -r
-	     exit
-             ;;
          v)
              set -x
              ;;
+         a)
+             ARCHIVE=1
+             ;;
+         u)
+             UPDATE=1
+             ;;
+         r)
+             RECURSIVE=1
+             ;; 
          ?)
              usage
              exit
@@ -87,15 +91,30 @@ fi
 if [ ! -d "$DESTINATION" ]; then
   echo "Creating destination directory"
   mkdir $DESTINATION 
-  COMMAND="$CRONTAB rsync -r $ORIGIN $DESTINATION"
-  crontab -l > mycron 2> /dev/null
-  echo "$COMMAND" >> mycron
-  crontab mycron
-  rm mycron
 else
+  echo "Destination directory already exists"
+fi
+
+if [ "$ARCHIVE" -eq 1 ]; then
+  FULLOPTIONS+="a"
+fi 
+if [ "$UPDATE" -eq 1 ]; then
+  FULLOPTIONS+="u"
+fi
+if [ "$RECURSIVE" -eq 1 ]; then
+  FULLOPTIONS+="r"
+fi 
+
+if [ "$FULLOPTIONS" = "-" ]; then
   COMMAND="$CRONTAB rsync -r $ORIGIN $DESTINATION"
   crontab -l > mycron 2> /dev/null
   echo "$COMMAND" >> mycron
   crontab mycron
-  rm mycron
+  rm mycron 
+else
+  COMMAND="$CRONTAB rsync $FULLOPTIONS $ORIGIN $DESTINATION"
+  crontab -l > mycron 2> /dev/null
+  echo "$COMMAND" >> mycron
+  crontab mycron
+  rm mycron 
 fi

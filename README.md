@@ -28,8 +28,9 @@ OPTIONS:
    -o      File or folder to backup
    -d      Backup destination directory
    -c      Add a crontab rule to this command
-   -l 	   List of crontab rules
-   -r      Erase all crontab rules
+   -a      Use Rsync in archive mode
+   -u      Use Rsync in update mode
+   -r      Use Rsync in recursive mode
    -v      Verbose
 ```
 
