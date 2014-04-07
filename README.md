@@ -21,7 +21,7 @@ The development of Mnemosyne is at the beginning and only the first features are
 ## <a name='Usage'>Usage</a>
 
 ```shell
-Backup folder or file in a specific path with associated crontab rule
+Backup folder or file in a specific path with associated crontab rule using rsync
 
 OPTIONS:
    -h      Show this message
