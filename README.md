@@ -43,7 +43,7 @@ Suppose you want to backup your home directory every 12 hours in a specific fold
 If you get your crontab rules you'll now find:
 
 ```shell
-		0 0,12 * * * cp -r /home/ /media/ancosen/disk/
+		0 0,12 * * * rsync -r /home/ /media/ancosen/disk/
 ```
 
 ## <a name='Contributing'>Contributing</a>

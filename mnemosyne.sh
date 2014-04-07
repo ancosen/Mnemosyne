@@ -72,13 +72,13 @@ fi
 if [ ! -d "$DESTINATION" ]; then
   echo "Creating destination directory"
   mkdir $DESTINATION 
-  COMMAND="$CRONTAB cp -r $ORIGIN $DESTINATION"
+  COMMAND="$CRONTAB rsync -r $ORIGIN $DESTINATION"
   crontab -l > mycron 2> /dev/null
   echo "$COMMAND" >> mycron
   crontab mycron
   rm mycron
 else
-  COMMAND="$CRONTAB cp -r $ORIGIN $DESTINATION"
+  COMMAND="$CRONTAB rsync -r $ORIGIN $DESTINATION"
   crontab -l > mycron 2> /dev/null
   echo "$COMMAND" >> mycron
   crontab mycron
