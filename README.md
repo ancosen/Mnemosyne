@@ -37,7 +37,7 @@ OPTIONS:
    -t      Preserve modification times
    -o      Preserve owner
    -v      Verbose
-   -I      Use Rsync and don't skip files that match size and time
+   -I      Don't skip files that match size and time
    -O      Omit directories from -t
 ```
 
