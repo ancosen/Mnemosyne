@@ -24,34 +24,49 @@ Backup folder or file in a specific path with associated crontab rule
 
 OPTIONS:
    -h      Show this message
-   -o      File or folder to backup
+   -s      File or folder to backup
    -d      Backup destination directory
    -c      Add a crontab rule to this command
-   -a      Use Rsync in archive mode
-   -u      Use Rsync in update mode
-   -r      Use Rsync in recursive mode
+   -a      Archive mode
+   -u      Update mode
+   -r      Recursive mode
+   -l      Copy symlinks as symlinks
+   -p      Preserve permissions
+   -g      Preserve groups
+   -t      Preserve modification times
+   -o      Preserve owner
    -v      Verbose
+   -I      Use Rsync and don't skip files that match size and time
+   -O      Omit directories from -t
 EOF
 }
 
 FULLOPTIONS="-"
-ORIGIN=
+SOURCE=
 DESTINATION=
 CRONTAB=
 COMMAND=
 ARCHIVE=0
 UPDATE=0
 RECURSIVE=0
+IGNORETIMES=0
+SYMLINKS=0
+PERMISSION=0
+GROUP=0
+MODIFICATION=0
+OWNER=0
+OMIT_DIRECTORIES_T=0
 
-while getopts “hauro:d:c:v” OPTION
+
+while getopts “IOhaurlpgtos:d:c:v” OPTION
 do
      case $OPTION in
          h)
              usage
              exit
              ;;
-         o)
-             ORIGIN=$OPTARG
+         s)
+             SOURCE=$OPTARG
              ;;
          d)
              DESTINATION=$OPTARG
@@ -71,6 +86,27 @@ do
          r)
              RECURSIVE=1
              ;; 
+         l)
+             SYMLINKS=1
+             ;; 
+         p)
+             PERMISSION=1
+             ;; 
+         g)
+             GROUP=1
+             ;;
+         t)
+             MODIFICATION=1
+             ;;  
+         o)
+             OWNER=1
+             ;; 
+         I)
+             IGNORETIMES=1
+             ;; 
+         O)
+             OMIT_DIRECTORIES_T=1
+             ;; 
          ?)
              usage
              exit
@@ -78,12 +114,12 @@ do
      esac
 done
 
-if [ -z "$DESTINATION" ] || [ -z "$ORIGIN" ] || [ -z "$CRONTAB" ]; then
+if [ -z "$DESTINATION" ] || [ -z "$SOURCE" ] || [ -z "$CRONTAB" ]; then
     usage
     exit 1
 fi
 
-if [ ! -d "$ORIGIN" ] && [ ! -f "$ORIGIN" ]; then
+if [ ! -d "$SOURCE" ] && [ ! -f "$SOURCE" ]; then
   echo "File or directory to copy doesn't exist"
   exit 1
 fi
@@ -104,15 +140,36 @@ fi
 if [ "$RECURSIVE" -eq 1 ]; then
   FULLOPTIONS+="r"
 fi 
+if [ "$IGNORETIMES" -eq 1 ]; then
+  FULLOPTIONS+="I"
+fi 
+if [ "$SYMLINKS" -eq 1 ]; then
+  FULLOPTIONS+="l"
+fi 
+if [ "$PERMISSION" -eq 1 ]; then
+  FULLOPTIONS+="p"
+fi 
+if [ "$GROUP" -eq 1 ]; then
+  FULLOPTIONS+="g"
+fi 
+if [ "$MODIFICATION" -eq 1 ]; then
+  FULLOPTIONS+="t"
+fi 
+if [ "$OWNER" -eq 1 ]; then
+  FULLOPTIONS+="o"
+fi 
+if [ "$MODIFICATION" -eq 1 ] && [ "$OMIT_DIRECTORIES_T" -eq 1 ]; then
+  FULLOPTIONS+="O"
+fi 
 
 if [ "$FULLOPTIONS" = "-" ]; then
-  COMMAND="$CRONTAB rsync -r $ORIGIN $DESTINATION"
+  COMMAND="$CRONTAB rsync -r $SOURCE $DESTINATION"
   crontab -l > mycron 2> /dev/null
   echo "$COMMAND" >> mycron
   crontab mycron
   rm mycron 
 else
-  COMMAND="$CRONTAB rsync $FULLOPTIONS $ORIGIN $DESTINATION"
+  COMMAND="$CRONTAB rsync $FULLOPTIONS $SOURCE $DESTINATION"
   crontab -l > mycron 2> /dev/null
   echo "$COMMAND" >> mycron
   crontab mycron

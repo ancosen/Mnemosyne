@@ -25,13 +25,20 @@ Backup folder or file in a specific path with associated crontab rule using rsyn
 
 OPTIONS:
    -h      Show this message
-   -o      File or folder to backup
+   -s      File or folder to backup
    -d      Backup destination directory
    -c      Add a crontab rule to this command
-   -a      Use Rsync in archive mode
-   -u      Use Rsync in update mode
-   -r      Use Rsync in recursive mode
+   -a      Archive mode
+   -u      Update mode
+   -r      Recursive mode
+   -l      Copy symlinks as symlinks
+   -p      Preserve permissions
+   -g      Preserve groups
+   -t      Preserve modification times
+   -o      Preserve owner
    -v      Verbose
+   -I      Use Rsync and don't skip files that match size and time
+   -O      Omit directories from -t
 ```
 
 ## <a name='Examples'>Examples</a>
@@ -39,7 +46,7 @@ OPTIONS:
 Suppose you want to backup your home directory every 12 hours in a specific folder. With Mnemosyne this is possible with a simple command
 
 ```shell
-		./mnemosyne.sh -o /home/ -d /media/ancosen/disk/ -c '0 0,12 * * *'
+		./mnemosyne.sh -s /home/ -d /media/ancosen/disk/ -c '0 0,12 * * *'
 ```
 If you get your crontab rules you'll now find:
 
