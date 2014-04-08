@@ -46,12 +46,12 @@ OPTIONS:
 Suppose you want to backup your home directory every 12 hours in a specific folder. With Mnemosyne this is possible with a simple command
 
 ```shell
-		./mnemosyne.sh -s /home/ -d /media/ancosen/disk/ -c '0 0,12 * * *'
+		./mnemosyne.sh -s /home/ -d /media/username/disk/ -c '0 0,12 * * *'
 ```
 If you get your crontab rules you'll now find:
 
 ```shell
-		0 0,12 * * * rsync -r /home/ /media/ancosen/disk/
+		0 0,12 * * * rsync -r /home/ /media/username/disk/
 ```
 
 ## <a name='Contributing'>Contributing</a>
