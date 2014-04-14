@@ -36,7 +36,8 @@ OPTIONS:
    -t      Preserve modification times
    -o      Preserve owner
    -v      Verbose
-   -I      Use Rsync and don't skip files that match size and time
+   -I      Don't skip files that match size and time
+   -X      Preserve extended attributes
    -O      Omit directories from -t
 EOF
 }
@@ -56,9 +57,9 @@ GROUP=0
 MODIFICATION=0
 OWNER=0
 OMIT_DIRECTORIES_T=0
+EXTENDEDATTRS=0
 
-
-while getopts “IOhaurlpgtos:d:c:v” OPTION
+while getopts “IOXhaurlpgtos:d:c:v” OPTION
 do
      case $OPTION in
          h)
@@ -106,6 +107,9 @@ do
              ;; 
          O)
              OMIT_DIRECTORIES_T=1
+             ;; 
+         X)
+             EXTENDEDATTRS=1
              ;; 
          ?)
              usage
@@ -157,6 +161,9 @@ if [ "$MODIFICATION" -eq 1 ]; then
 fi 
 if [ "$OWNER" -eq 1 ]; then
   FULLOPTIONS+="o"
+fi 
+if [ "$EXTENDEDATTRS" -eq 1 ]; then
+  FULLOPTIONS+="X"
 fi 
 if [ "$MODIFICATION" -eq 1 ] && [ "$OMIT_DIRECTORIES_T" -eq 1 ]; then
   FULLOPTIONS+="O"
